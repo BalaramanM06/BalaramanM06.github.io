@@ -1,10 +1,616 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Balaraman Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balaraman M | Full Stack Developer</title>
+    <style>
+        /* CSS Variables for Dark Theme */
+        :root {
+            --bg-color: #0d1117;
+            --secondary-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-color: #58a6ff;
+            --highlight-color: #1f6feb;
+            --nav-bg: rgba(13, 17, 23, 0.95);
+        }
+
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Responsive Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        section:nth-child(even) {
+            background-color: var(--secondary-bg);
+        }
+
+        h1, h2, h3, h4 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--highlight-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        /* Hero Section */
+        #hero {
+            text-align: center;
+            justify-content: center;
+            padding-top: 150px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #8b949e;
+        }
+
+        /* Timeline/Experience Section */
+        .experience-item {
+            background-color: var(--bg-color);
+            border: 1px solid #30363d;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .experience-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .exp-header h3 { margin-bottom: 5px; }
+
+        .date-badge {
+            background-color: var(--secondary-bg);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            border: 1px solid #30363d;
+        }
+        
+        .exp-list {
+            padding-left: 20px;
+            color: #8b949e;
+        }
+        
+        .exp-list li {
+            margin-bottom: 8px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background-color: var(--secondary-bg);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #30363d;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: var(--secondary-bg);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-color: #8b949e;
+        }
+
+        /* achievements section */
+        .achievement-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .achievement-item {
+            background-color: var(--bg-color);
+            border: 1px solid #30363d;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .achievement-item strong {
+            color: var(--accent-color);
+        }
+
+        /* Resume Section */
+        .resume-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .resume-iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+        }
+
+        .resume-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Contact Section */
+        #contact {
+            text-align: center;
+            justify-content: center;
+        }
+
+        .contact-content p {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid #30363d;
+            background-color: var(--secondary-bg);
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.2rem; }
+            .nav-container { flex-direction: column; height: auto; padding: 15px; }
+            .nav-links { margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+            .resume-iframe { height: 400px; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, I'm Balaraman 👋</h1>
-    <p>Welcome to my website!</p>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="#hero" class="logo">Balaraman M</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#awards">Awards</a></li>
+                <li><a href="#resume">Resume</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container hero-content fade-in">
+            <h1>Hi, I'm Balaraman M</h1>
+            <p>Full Stack Developer | Competitive Programmer | Backend Enthusiast</p>
+            <a href="#projects" class="btn">View My Work</a>
+            <a href="#contact" class="btn btn-outline" style="margin-left: 10px;">Contact Me</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" style="background-color: var(--secondary-bg);">
+        <div class="container fade-in">
+            <h2>About Me</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.15rem;">
+                <p>Hello! I am a passionate Full Stack Developer and a Pre-Final year B.Tech Information Technology student at Chennai Institute of Technology (Current CGPA: 8.45). I enjoy building scalable backend architectures, exploring new technologies, and crafting interactive applications.</p>
+                <br>
+                <p>Beyond development, I am an active competitive programmer with a LeetCode maximum rating of <strong>2169 (Guardian, Top 1.06%)</strong> and a solid record on CodeChef and Codeforces. Whether it's optimizing PostgreSQL queries, implementing real-time WebSockets, or tackling complex data structures to solve real-world problems, I truly thrive in environments that challenge me.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="container fade-in">
+            <h2>Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="exp-header">
+                    <div>
+                        <h3>Software Engineering Intern</h3>
+                        <p style="color: #8b949e; font-size: 1.1rem;">Krown – Chennai, India</p>
+                    </div>
+                    <span class="date-badge">Jan 2026 - Present</span>
+                </div>
+                <ul class="exp-list">
+                    <li>Built scalable features for a React Native app and Next.js web platform using WebSockets for real-time updates and analytics.</li>
+                    <li>Developed secure, scalable Razorpay payment and booking flows with Node.js webhooks for transactions and confirmations.</li>
+                    <li>Improved security and performance using multi-device authentication, httpOnly cookies, and optimized PostgreSQL queries.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-header">
+                    <div>
+                        <h3>Software Engineering Intern</h3>
+                        <p style="color: #8b949e; font-size: 1.1rem;">Hathor Union – Chennai, India</p>
+                    </div>
+                    <span class="date-badge">May 2025 - Jun 2025</span>
+                </div>
+                <ul class="exp-list">
+                    <li>Developed a production-level backend using Micronaut, implementing scalable APIs and modular architecture for core services.</li>
+                    <li>Wrote comprehensive unit and integration tests for all API endpoints to ensure code reliability and coverage.</li>
+                    <li>Implemented SSO with Keycloak and integrated the backend with MongoDB, streamlining user authentication.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-header">
+                    <div>
+                        <h3>Junior Technologist Training</h3>
+                        <p style="color: #8b949e; font-size: 1.1rem;">Gogosoon Private Limited – Chennai, India</p>
+                    </div>
+                    <span class="date-badge">Sept 2024</span>
+                </div>
+                <ul class="exp-list">
+                    <li>Developed a chat app using Socket.io and Node.js for bi-directional communication and instant message delivery.</li>
+                    <li>Implemented RESTful APIs with Node.js and integrated Sequelize ORM for efficient database operations.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" style="background-color: var(--secondary-bg);">
+        <div class="container fade-in">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-tag">Java & Kotlin</div>
+                <div class="skill-tag">C / C++</div>
+                <div class="skill-tag">Python</div>
+                <div class="skill-tag">Go</div>
+                <div class="skill-tag">JavaScript / TypeScript</div>
+                <div class="skill-tag">Node.js / Express.js</div>
+                <div class="skill-tag">React.js & Next.js</div>
+                <div class="skill-tag">Spring Boot</div>
+                <div class="skill-tag">Micronaut</div>
+                <div class="skill-tag">FastAPI</div>
+                <div class="skill-tag">MongoDB</div>
+                <div class="skill-tag">SQL (PostgreSQL)</div>
+                <div class="skill-tag">Data Structures & Algorithms</div>
+                <div class="skill-tag">Docker</div>
+                <div class="skill-tag">AWS</div>
+                <div class="skill-tag">Git & GitHub</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container fade-in">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                
+                <!-- MentorConnect Project -->
+                <div class="project-card">
+                    <div>
+                        <h3>MentorConnect</h3>
+                        <p style="margin-bottom: 15px; color: #8b949e;">A platform that enables mentees to browse and select mentors for personalized, goal-oriented mentorship.</p>
+                        <ul style="padding-left: 20px; color: #8b949e; margin-bottom: 20px; font-size: 0.95rem;">
+                            <li>Implemented private chat features using Socket.io.</li>
+                            <li>Secured the platform using JWT authentication and role-based access.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.9em; color: var(--accent-color); margin-right: 10px;">#React</span>
+                        <span style="font-size: 0.9em; color: var(--accent-color); margin-right: 10px;">#Spring Boot</span>
+                        <span style="font-size: 0.9em; color: var(--accent-color);">#Socket.io</span>
+                    </div>
+                </div>
+
+                <!-- Movie Review App -->
+                <div class="project-card">
+                    <div>
+                        <h3>Movie Review Application</h3>
+                        <p style="margin-bottom: 15px; color: #8b949e;">A comprehensive platform to review, rate, and comment on movies, connecting users in a shared community.</p>
+                        <ul style="padding-left: 20px; color: #8b949e; margin-bottom: 20px; font-size: 0.95rem;">
+                            <li>Structured RESTful API endpoints for user auth and movie listings.</li>
+                            <li>Responsive React frontend built with Material UI.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.9em; color: var(--accent-color); margin-right: 10px;">#React</span>
+                        <span style="font-size: 0.9em; color: var(--accent-color); margin-right: 10px;">#MongoDB</span>
+                        <span style="font-size: 0.9em; color: var(--accent-color);">#Spring MVC</span>
+                    </div>
+                </div>
+
+                <!-- Drone Automation -->
+                <div class="project-card">
+                    <div>
+                        <h3>Autonomous Drone Navigation</h3>
+                        <p style="margin-bottom: 15px; color: #8b949e;">An autonomous drone delivery system established with a stable communication link for real-time telemetry.</p>
+                        <ul style="padding-left: 20px; color: #8b949e; margin-bottom: 20px; font-size: 0.95rem;">
+                            <li>Built navigation with DroneKit-Python for GPS waypoints.</li>
+                            <li>Integrated Pi Camera and YOLOv5 to detect QR codes during landing.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.9em; color: var(--accent-color); margin-right: 10px;">#Python</span>
+                        <span style="font-size: 0.9em; color: var(--accent-color); margin-right: 10px;">#DroneKit</span>
+                        <span style="font-size: 0.9em; color: var(--accent-color);">#YOLOv5</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards & Achievements -->
+    <section id="awards" style="background-color: var(--secondary-bg);">
+        <div class="container fade-in">
+            <h2>Awards & Achievements</h2>
+            <div class="achievement-list">
+                <div class="achievement-item">
+                    <span>🏆</span>
+                    <p><strong>Winner of SIH 2025:</strong> Built a geospatial calibration tool for IKS to generate precise dimensions for astronomical instruments.</p>
+                </div>
+                <div class="achievement-item">
+                    <span>🚁</span>
+                    <p><strong>AIR 3 in ADDC 2025:</strong> Built an autonomous drone system using YOLOv5 for QR-based landing in a national drone competition.</p>
+                </div>
+                <div class="achievement-item">
+                    <span>💻</span>
+                    <p><strong>ICPC Chennai Regional 2025:</strong> Participated, successfully solved a contest problem, securing an overall rank of 1034.</p>
+                </div>
+                <div class="achievement-item">
+                    <span>⭐</span>
+                    <p><strong>Competitive Programming:</strong> Leetcode Guardian (Rating 2169, Top 1.06%), CodeChef 4 Star (Rating 1869), Codeforces Specialist (Rating 1517).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume">
+        <div class="container fade-in">
+            <h2>Resume</h2>
+            <div class="resume-container">
+                <iframe src="resume.pdf" class="resume-iframe" title="Balaraman M Resume">
+                    This browser does not support PDFs. Please download the PDF to view it.
+                </iframe>
+                
+                <div class="resume-actions">
+                    <a href="resume.pdf" target="_blank" class="btn btn-outline">View Fullscreen</a>
+                    <a href="resume.pdf" download="Balaraman_M_Resume.pdf" class="btn">Download Resume</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background-color: var(--secondary-bg);">
+        <div class="container contact-content fade-in">
+            <h2>Get In Touch</h2>
+            <p>I am currently open for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+            <p style="font-size: 1.1rem; color: #8b949e;">
+                Email: <a href="mailto:balamuthu0007@gmail.com" style="color: var(--accent-color); text-decoration: none;">balamuthu0007@gmail.com</a> | 
+                Phone: +91 9994377413
+            </p>
+            
+            <div class="contact-links">
+                <a href="mailto:balamuthu0007@gmail.com" class="btn">Say Hello</a>
+                <a href="https://github.com/BalaramanM" target="_blank" class="btn btn-outline">GitHub Profile</a>
+                <!-- You can add LinkedIn or more links here if desired -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Balaraman M.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for subtle animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
