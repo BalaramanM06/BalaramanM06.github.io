@@ -1,164 +1,634 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amazon LeetCode Tracker</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;color:#1a1a1a;min-height:100vh;padding:24px 16px}
-  .container{max-width:780px;margin:0 auto}
-  h1{font-size:22px;font-weight:600;letter-spacing:-0.4px;margin-bottom:4px}
-  .subtitle{font-size:13px;color:#666;margin-bottom:16px}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-  .stat{background:#fff;border:1px solid #e5e5e0;border-radius:10px;padding:12px 14px}
-  .stat-num{font-size:22px;font-weight:600;line-height:1.2}
-  .stat-lbl{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
-  .stat-num.all{color:#1a1a1a}.stat-num.easy{color:#3B6D11}.stat-num.med{color:#BA7517}.stat-num.hard{color:#A32D2D}
-  .progress-bar{background:#e5e5e0;border-radius:99px;height:7px;overflow:hidden;margin-bottom:16px}
-  .progress-fill{height:100%;background:#3B6D11;border-radius:99px;transition:width 0.4s ease}
-  .controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-  .search-wrap{flex:1;min-width:180px;position:relative}
-  .search-wrap input{width:100%;padding:0 10px 0 34px;height:36px;font-size:13px;background:#fff;border:1px solid #ddd;border-radius:8px;color:#1a1a1a;outline:none}
-  .search-wrap input:focus{border-color:#999}
-  .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#aaa;font-size:15px;pointer-events:none}
-  .tabs{display:flex;gap:4px}
-  .tab{padding:0 14px;height:36px;font-size:12px;font-weight:500;border:1px solid #ddd;border-radius:8px;background:#fff;color:#666;cursor:pointer;transition:all 0.15s}
-  .tab:hover{background:#f5f5f0}
-  .tab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-  .reset-btn{padding:0 12px;height:36px;font-size:12px;font-weight:500;border:1px solid #ddd;border-radius:8px;background:#fff;color:#888;cursor:pointer}
-  .reset-btn:hover{background:#fff0f0;color:#A32D2D;border-color:#f0aaaa}
-  .list{background:#fff;border:1px solid #e5e5e0;border-radius:12px;overflow:hidden}
-  .item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f0f0eb;cursor:pointer;transition:background 0.1s;user-select:none}
-  .item:last-child{border-bottom:none}
-  .item:hover{background:#fafaf8}
-  .item.done{background:#fafff8}
-  .cb{width:18px;height:18px;border:2px solid #ccc;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;font-size:11px;font-weight:700}
-  .cb.checked{background:#3B6D11;border-color:#3B6D11;color:#fff}
-  .num{font-size:11px;color:#aaa;font-family:'Courier New',monospace;min-width:40px;flex-shrink:0}
-  .prob-title{font-size:13px;color:#1a1a1a;flex:1;line-height:1.4;text-decoration:none}
-  .prob-title:hover{color:#3b82f6}
-  .item.done .prob-title{text-decoration:line-through;color:#aaa}
-  .acc{font-size:11px;color:#bbb;min-width:44px;text-align:right;flex-shrink:0}
-  .badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:99px;min-width:52px;text-align:center;flex-shrink:0}
-  .badge.E{background:#EAF3DE;color:#2d5a0e}.badge.M{background:#FEF3E2;color:#9a5f0a}.badge.H{background:#FEECEC;color:#8b2020}
-  .empty{padding:40px;text-align:center;color:#aaa;font-size:14px}
-  .lc-link{font-size:11px;color:#3b82f6;text-decoration:none;flex-shrink:0;opacity:0.6}
-  .lc-link:hover{opacity:1}
-  @media(max-width:500px){
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .acc{display:none}
-  }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Amazon interview prep — a curated LeetCode problem sheet with live progress tracking, by M Balaraman." />
+    <meta name="author" content="M Balaraman" />
+    <title>Amazon Interview Sheet | M Balaraman</title>
+    <script>
+        /* set theme before first paint to avoid a flash of the wrong theme (shared with portfolio) */
+        (function () {
+            try {
+                var t = localStorage.getItem("theme");
+                if (t) document.documentElement.setAttribute("data-theme", t);
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="theme-color" content="#0a0b12" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* ============================================================
+           THEME TOKENS  (shared design language with the portfolio)
+        ============================================================ */
+        :root {
+            --font-display: "Sora", system-ui, sans-serif;
+            --font-body: "Inter", system-ui, sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+
+            --accent: #6366f1;
+            --accent-2: #22d3ee;
+            --accent-3: #a855f7;
+            --gradient: linear-gradient(120deg, var(--accent-2), var(--accent), var(--accent-3));
+
+            --easy: #22c55e;
+            --med:  #f59e0b;
+            --hard: #f43f5e;
+
+            --radius: 16px;
+            --radius-sm: 10px;
+            --maxw: 960px;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.45);
+        }
+
+        html[data-theme="dark"] {
+            --bg: #0a0b12;
+            --bg-2: #10121d;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-2: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.09);
+            --text: #e8eaf2;
+            --text-dim: #9aa0b5;
+            --nav-bg: rgba(10, 11, 18, 0.6);
+            --glow: rgba(99, 102, 241, 0.25);
+        }
+
+        html[data-theme="light"] {
+            --bg: #f6f7fb;
+            --bg-2: #eef0f7;
+            --surface: #ffffff;
+            --surface-2: #eef1f8;
+            --border: rgba(15, 23, 42, 0.12);
+            --text: #14161f;
+            --text-dim: #55607a;
+            --nav-bg: rgba(246, 247, 251, 0.72);
+            --glow: rgba(99, 102, 241, 0.18);
+            --accent-2: #0e7490;
+        }
+
+        html[data-theme="light"] .tile,
+        html[data-theme="light"] .dash,
+        html[data-theme="light"] .list { box-shadow: 0 6px 20px -12px rgba(15, 23, 42, 0.18); }
+        html[data-theme="light"] .prob-title { color: #4f46e5; }
+        html[data-theme="light"] .chip.E { color: #15803d; }
+        html[data-theme="light"] .chip.M { color: #b45309; }
+        html[data-theme="light"] .chip.H { color: #be123c; }
+
+        /* ============================================================
+           BASE
+        ============================================================ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.5s var(--ease), color 0.5s var(--ease);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bg-fx { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+        .aurora {
+            position: absolute; inset: -25%; pointer-events: none;
+            background:
+                radial-gradient(38% 40% at 18% 22%, rgba(99, 102, 241, 0.40), transparent 60%),
+                radial-gradient(34% 36% at 82% 16%, rgba(34, 211, 238, 0.34), transparent 60%),
+                radial-gradient(42% 44% at 62% 82%, rgba(168, 85, 247, 0.36), transparent 62%),
+                radial-gradient(30% 32% at 40% 60%, rgba(34, 211, 238, 0.22), transparent 60%);
+            filter: blur(30px) saturate(130%);
+            animation: aurora-drift 26s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        html[data-theme="light"] .aurora { opacity: 0.4; }
+        @keyframes aurora-drift {
+            0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+            50%  { transform: translate3d(-3%, 2%, 0) rotate(4deg) scale(1.08); }
+            100% { transform: translate3d(3%, -2%, 0) rotate(-3deg) scale(1.12); }
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(70px);
+            opacity: 0.35; animation: float 20s var(--ease) infinite alternate; will-change: transform;
+        }
+        .blob.b1 { width: 500px; height: 500px; background: var(--accent); top: -160px; left: -120px; }
+        .blob.b2 { width: 460px; height: 460px; background: var(--accent-2); top: 30%; right: -140px; animation-delay: -6s; }
+        .blob.b3 { width: 420px; height: 420px; background: var(--accent-3); bottom: -160px; left: 25%; animation-delay: -12s; }
+        html[data-theme="light"] .blob { opacity: 0.18; }
+        @keyframes float {
+            0%   { transform: translate(0,0) scale(1); }
+            100% { transform: translate(40px, 60px) scale(1.15); }
+        }
+        .grid-overlay {
+            position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at 50% 0%, black, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black, transparent 70%);
+            opacity: 0.35;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        ::selection { background: var(--accent); color: #fff; }
+
+        .skip-link {
+            position: fixed; top: -60px; left: 16px; z-index: 1100;
+            background: var(--accent); color: #fff; padding: 10px 18px; border-radius: 8px;
+            font-weight: 600; transition: top 0.25s var(--ease);
+        }
+        .skip-link:focus { top: 16px; }
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px;
+        }
+
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: var(--gradient); z-index: 1000;
+        }
+
+        .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+        /* ============================================================
+           NAV  (same glass pill as portfolio)
+        ============================================================ */
+        nav {
+            position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+            width: min(960px, calc(100% - 28px)); z-index: 900;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 20px; border-radius: 999px;
+            background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            transition: padding 0.4s var(--ease), box-shadow 0.4s var(--ease), background 0.4s var(--ease);
+        }
+        nav.scrolled { padding: 8px 20px; box-shadow: var(--shadow); }
+        .logo { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.5px; display: inline-flex; align-items: center; gap: 7px; }
+        .logo span { color: var(--accent); }
+        .logo .back { font-size: 0.85rem; color: var(--text-dim); font-weight: 500; }
+        .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+        .nav-links a {
+            font-size: 0.9rem; font-weight: 500; color: var(--text-dim);
+            padding: 7px 13px; border-radius: 999px; position: relative;
+            transition: color 0.25s, background 0.25s, transform 0.25s;
+        }
+        .nav-links a:hover { color: var(--text); background: var(--surface-2); }
+        .nav-links a.active {
+            background: linear-gradient(120deg, var(--accent), var(--accent-3));
+            color: #fff; box-shadow: 0 8px 20px -8px var(--glow);
+        }
+        .nav-links a.active:hover { color: #fff; transform: translateY(-1px); }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .icon-btn {
+            width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border);
+            background: var(--surface); color: var(--text); cursor: pointer;
+            display: grid; place-items: center; font-size: 0.95rem;
+            transition: transform 0.3s var(--ease), background 0.3s, border-color 0.3s, color 0.3s;
+        }
+        .icon-btn:hover { transform: translateY(-2px) rotate(-8deg); border-color: var(--accent); color: var(--accent); }
+        .burger { display: none; }
+
+        /* ============================================================
+           PAGE HEAD
+        ============================================================ */
+        main { padding-top: 118px; padding-bottom: 90px; }
+        .eyebrow {
+            font-family: var(--font-mono); font-size: 0.82rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--accent-2); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px;
+        }
+        .page-head h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -1px; }
+        .page-head h1 .grad { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shimmer 6s linear infinite; }
+        @keyframes shimmer { to { background-position: 200% center; } }
+        .page-head p.sub { color: var(--text-dim); margin-top: 12px; max-width: 620px; font-size: 1.05rem; }
+
+        /* ============================================================
+           DASHBOARD:  progress ring + difficulty tiles
+        ============================================================ */
+        .dash {
+            display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center;
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 28px; margin: 30px 0 22px; backdrop-filter: blur(8px);
+        }
+        .ring-wrap { position: relative; width: 148px; height: 148px; flex-shrink: 0; }
+        .ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .ring-track { fill: none; stroke: var(--surface-2); stroke-width: 12; }
+        .ring-fill {
+            fill: none; stroke: url(#ringGrad); stroke-width: 12; stroke-linecap: round;
+            transition: stroke-dashoffset 0.9s var(--ease);
+        }
+        .ring-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+        .ring-center .pct { font-family: var(--font-display); font-size: 2rem; font-weight: 800; line-height: 1; }
+        .ring-center .pct-lbl { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .tile {
+            background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+            padding: 16px; position: relative; overflow: hidden;
+            transition: transform 0.3s var(--ease), border-color 0.3s;
+        }
+        .tile:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .tile .t-num { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; line-height: 1.1; }
+        .tile .t-lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-dim); margin-top: 3px; }
+        .tile .t-bar { height: 5px; border-radius: 99px; background: var(--surface); margin-top: 12px; overflow: hidden; }
+        .tile .t-bar span { display: block; height: 100%; border-radius: 99px; width: 0%; transition: width 0.9s var(--ease); }
+        .tile.all  .t-num { color: var(--text); }        .tile.all  .t-bar span { background: var(--gradient); }
+        .tile.easy .t-num { color: var(--easy); }         .tile.easy .t-bar span { background: var(--easy); }
+        .tile.med  .t-num { color: var(--med); }          .tile.med  .t-bar span { background: var(--med); }
+        .tile.hard .t-num { color: var(--hard); }         .tile.hard .t-bar span { background: var(--hard); }
+
+        /* ============================================================
+           CONTROLS:  search + segmented filter + reset
+        ============================================================ */
+        .controls {
+            display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+            position: sticky; top: 82px; z-index: 50;
+            padding: 12px; margin-bottom: 18px; border-radius: 999px;
+            background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+        }
+        .search { flex: 1; min-width: 200px; position: relative; }
+        .search i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-dim); font-size: 0.9rem; pointer-events: none; }
+        .search input {
+            width: 100%; height: 42px; padding: 0 14px 0 40px; font-size: 0.92rem; font-family: var(--font-body);
+            background: var(--surface); border: 1px solid var(--border); border-radius: 999px; color: var(--text); outline: none;
+            transition: border-color 0.25s, background 0.25s;
+        }
+        .search input::placeholder { color: var(--text-dim); }
+        .search input:focus { border-color: var(--accent); background: var(--surface-2); }
+
+        .seg { position: relative; display: flex; gap: 2px; padding: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; }
+        .seg button {
+            position: relative; z-index: 1; border: none; background: none; cursor: pointer;
+            font-family: var(--font-body); font-size: 0.82rem; font-weight: 600; color: var(--text-dim);
+            padding: 8px 15px; border-radius: 999px; transition: color 0.25s;
+        }
+        .seg button.active { color: #fff; }
+        .seg .seg-ind {
+            position: absolute; top: 4px; left: 4px; height: calc(100% - 8px); border-radius: 999px;
+            background: linear-gradient(120deg, var(--accent), var(--accent-3));
+            box-shadow: 0 8px 20px -8px var(--glow);
+            transition: transform 0.35s var(--ease), width 0.35s var(--ease); z-index: 0;
+        }
+        .reset {
+            display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 16px;
+            border: 1px solid var(--border); background: var(--surface); color: var(--text-dim);
+            border-radius: 999px; cursor: pointer; font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+            transition: color 0.25s, border-color 0.25s, background 0.25s;
+        }
+        .reset:hover { color: var(--hard); border-color: var(--hard); background: var(--surface-2); }
+
+        /* ============================================================
+           PROBLEM LIST
+        ============================================================ */
+        .list-meta { font-size: 0.82rem; color: var(--text-dim); margin: 0 4px 10px; font-family: var(--font-mono); }
+        .list {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+            overflow: hidden; backdrop-filter: blur(8px);
+        }
+        .row {
+            display: flex; align-items: center; gap: 14px; padding: 13px 18px;
+            border-bottom: 1px solid var(--border); cursor: pointer; user-select: none;
+            position: relative; transition: background 0.2s;
+        }
+        .row:last-child { border-bottom: none; }
+        .row:hover { background: var(--surface-2); }
+        .row::before {
+            content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--gradient); opacity: 0; transition: opacity 0.25s;
+        }
+        .row:hover::before { opacity: 1; }
+        .row.done { background: color-mix(in srgb, var(--easy) 8%, transparent); }
+
+        .cb {
+            width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 7px; flex-shrink: 0;
+            display: grid; place-items: center; font-size: 0.7rem; color: transparent;
+            transition: background 0.25s var(--ease), border-color 0.25s, transform 0.25s var(--ease), color 0.2s;
+        }
+        .row:hover .cb { border-color: var(--accent); }
+        .cb.checked {
+            background: linear-gradient(120deg, var(--accent), var(--accent-3)); border-color: transparent; color: #fff;
+            transform: scale(1.05);
+        }
+        .num { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim); min-width: 46px; flex-shrink: 0; }
+        .prob-title { font-size: 0.95rem; color: var(--text); flex: 1; line-height: 1.4; transition: color 0.2s; }
+        .prob-title:hover { color: var(--accent-2); }
+        .row.done .prob-title { text-decoration: line-through; color: var(--text-dim); }
+        .acc { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim); min-width: 52px; text-align: right; flex-shrink: 0; }
+        .chip {
+            font-size: 0.7rem; font-weight: 700; padding: 4px 11px; border-radius: 999px;
+            min-width: 62px; text-align: center; flex-shrink: 0; letter-spacing: 0.3px;
+        }
+        .chip.E { background: color-mix(in srgb, var(--easy) 16%, transparent); color: color-mix(in srgb, var(--easy) 78%, white); border: 1px solid color-mix(in srgb, var(--easy) 30%, transparent); }
+        .chip.M { background: color-mix(in srgb, var(--med) 16%, transparent);  color: color-mix(in srgb, var(--med) 82%, white);  border: 1px solid color-mix(in srgb, var(--med) 30%, transparent); }
+        .chip.H { background: color-mix(in srgb, var(--hard) 16%, transparent); color: color-mix(in srgb, var(--hard) 82%, white); border: 1px solid color-mix(in srgb, var(--hard) 30%, transparent); }
+        .open { color: var(--text-dim); font-size: 0.82rem; flex-shrink: 0; opacity: 0.55; transition: opacity 0.2s, color 0.2s, transform 0.2s; }
+        .open:hover { opacity: 1; color: var(--accent-2); transform: translate(1px, -1px); }
+        .empty { padding: 54px; text-align: center; color: var(--text-dim); }
+
+        #to-top {
+            position: fixed; bottom: 26px; right: 26px; width: 48px; height: 48px; border-radius: 50%;
+            border: 1px solid var(--border); background: var(--nav-bg); backdrop-filter: blur(10px); color: var(--text);
+            cursor: pointer; display: grid; place-items: center; font-size: 1rem; z-index: 800;
+            opacity: 0; pointer-events: none; transform: translateY(12px);
+            transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), border-color 0.3s, color 0.3s;
+        }
+        #to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        #to-top:hover { border-color: var(--accent); color: var(--accent); }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+        @media (max-width: 760px) {
+            .dash { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+            .tiles { width: 100%; grid-template-columns: repeat(2, 1fr); }
+            .nav-links {
+                position: fixed; top: 74px; left: 50%; transform: translateX(-50%) scale(0.96);
+                flex-direction: column; align-items: stretch; width: min(300px, calc(100% - 28px));
+                background: var(--nav-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+                border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; gap: 4px;
+                opacity: 0; pointer-events: none; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); box-shadow: var(--shadow);
+            }
+            .nav-links.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) scale(1); }
+            .nav-links a { padding: 12px 14px; }
+            .burger { display: grid; }
+        }
+        @media (max-width: 520px) {
+            .controls { position: static; border-radius: var(--radius); }
+            .acc { display: none; }
+            .search { min-width: 100%; order: -1; }
+            .row { gap: 10px; padding: 12px 14px; }
+            .num { min-width: 40px; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-  <h1>Amazon LeetCode Tracker</h1>
-  <div class="subtitle" id="sub">Loading…</div>
-  <div class="stats">
-    <div class="stat"><div class="stat-num all" id="s-done">0</div><div class="stat-lbl">Done</div></div>
-    <div class="stat"><div class="stat-num easy" id="s-easy">0/152</div><div class="stat-lbl">Easy</div></div>
-    <div class="stat"><div class="stat-num med" id="s-med">0/363</div><div class="stat-lbl">Medium</div></div>
-    <div class="stat"><div class="stat-num hard" id="s-hard">0/103</div><div class="stat-lbl">Hard</div></div>
-  </div>
-  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
-  <div class="controls">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" placeholder="Search by name or number…" id="srch" oninput="render()">
-    </div>
-    <div class="tabs">
-      <button class="tab active" onclick="setTab('all',this)">All</button>
-      <button class="tab" onclick="setTab('Easy',this)">Easy</button>
-      <button class="tab" onclick="setTab('Medium',this)">Medium</button>
-      <button class="tab" onclick="setTab('Hard',this)">Hard</button>
-    </div>
-    <button class="reset-btn" onclick="resetAll()">Reset</button>
-  </div>
-  <div class="list" id="list"></div>
-</div>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <div id="scroll-progress"></div>
+    <div class="bg-fx"><div class="aurora"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+    <div class="grid-overlay"></div>
 
-<script>
+    <!-- ===================== NAV ===================== -->
+    <nav id="nav">
+        <a href="index.html" class="logo"><i class="fa-solid fa-arrow-left back" aria-hidden="true"></i> M<span>.</span>Balaraman</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Portfolio</a></li>
+            <li><a href="index.html#coding">Coding</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="amazon.html" class="active" aria-current="page">Interview Sheet</a></li>
+        </ul>
+        <div class="nav-right">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle color theme"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+            <button class="icon-btn burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        </div>
+    </nav>
+
+    <main id="main">
+        <div class="wrap">
+            <!-- ===================== HEAD ===================== -->
+            <div class="page-head">
+                <span class="eyebrow"><i class="fa-brands fa-amazon" aria-hidden="true"></i> Interview Preparation</span>
+                <h1>Amazon <span class="grad">LeetCode Sheet</span></h1>
+                <p class="sub" id="sub">A curated set of the most-asked Amazon problems. Tick them off as you solve — progress saves to this browser automatically.</p>
+            </div>
+
+            <!-- ===================== DASHBOARD ===================== -->
+            <section class="dash" aria-label="Progress overview">
+                <div class="ring-wrap">
+                    <svg viewBox="0 0 120 120" role="img" aria-label="Overall completion">
+                        <defs>
+                            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#22d3ee" />
+                                <stop offset="50%" stop-color="#6366f1" />
+                                <stop offset="100%" stop-color="#a855f7" />
+                            </linearGradient>
+                        </defs>
+                        <circle class="ring-track" cx="60" cy="60" r="52" />
+                        <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52" />
+                    </svg>
+                    <div class="ring-center">
+                        <div class="pct" id="ringPct">0%</div>
+                        <div class="pct-lbl">Solved</div>
+                    </div>
+                </div>
+                <div class="tiles">
+                    <div class="tile all"><div class="t-num" id="s-done">0</div><div class="t-lbl">Total</div><div class="t-bar"><span id="b-all"></span></div></div>
+                    <div class="tile easy"><div class="t-num" id="s-easy">0</div><div class="t-lbl">Easy</div><div class="t-bar"><span id="b-easy"></span></div></div>
+                    <div class="tile med"><div class="t-num" id="s-med">0</div><div class="t-lbl">Medium</div><div class="t-bar"><span id="b-med"></span></div></div>
+                    <div class="tile hard"><div class="t-num" id="s-hard">0</div><div class="t-lbl">Hard</div><div class="t-bar"><span id="b-hard"></span></div></div>
+                </div>
+            </section>
+
+            <!-- ===================== CONTROLS ===================== -->
+            <div class="controls">
+                <div class="search">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input type="text" id="srch" placeholder="Search by name or number…" aria-label="Search problems" />
+                </div>
+                <div class="seg" id="seg" role="tablist" aria-label="Filter by difficulty">
+                    <span class="seg-ind" id="segInd"></span>
+                    <button class="active" data-tab="all" role="tab" aria-selected="true">All</button>
+                    <button data-tab="Easy" role="tab" aria-selected="false">Easy</button>
+                    <button data-tab="Medium" role="tab" aria-selected="false">Medium</button>
+                    <button data-tab="Hard" role="tab" aria-selected="false">Hard</button>
+                </div>
+                <button class="reset" id="reset"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset</button>
+            </div>
+
+            <div class="list-meta" id="listMeta"></div>
+            <div class="list" id="list"></div>
+        </div>
+    </main>
+
+    <button id="to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+
+    <script>
 const ALL=[
 [2235,"Add Two Integers","92.7%","Easy"],[1108,"Defanging an IP Address","89.1%","Easy"],[1672,"Richest Customer Wealth","89.1%","Easy"],[1470,"Shuffle the Array","88.4%","Easy"],[1512,"Number of Good Pairs","88.0%","Easy"],[771,"Jewels and Stones","87.8%","Easy"],[1603,"Design Parking System","87.7%","Easy"],[1365,"How Many Numbers Are Smaller Than the Current Number","86.4%","Easy"],[938,"Range Sum of BST","85.2%","Easy"],[1290,"Convert Binary Number in a Linked List to Integer","82.6%","Easy"],[1179,"Reformat Department Table","82.5%","Easy"],[511,"Game Play Analysis I","80.3%","Easy"],[557,"Reverse Words in a String III","79.2%","Easy"],[617,"Merge Two Binary Trees","78.1%","Easy"],[1295,"Find Numbers with Even Number of Digits","77.0%","Easy"],[346,"Moving Average from Data Stream","76.6%","Easy"],[700,"Search in a Binary Search Tree","76.6%","Easy"],[905,"Sort Array By Parity","75.7%","Easy"],[2169,"Count Operations to Obtain Zero","75.6%","Easy"],[595,"Big Countries","75.5%","Easy"],[1475,"Final Prices With a Special Discount in a Shop","75.3%","Easy"],[344,"Reverse String","75.2%","Easy"],[359,"Logger Rate Limiter","75.2%","Easy"],[338,"Counting Bits","74.5%","Easy"],[933,"Number of Recent Calls","73.1%","Easy"],[876,"Middle of the Linked List","72.9%","Easy"],[237,"Delete Node in a Linked List","72.4%","Easy"],[104,"Maximum Depth of Binary Tree","72.2%","Easy"],[1710,"Maximum Units on a Truck","72.1%","Easy"],[226,"Invert Binary Tree","72.0%","Easy"],[1207,"Unique Number of Occurrences","71.9%","Easy"],[977,"Squares of a Sorted Array","71.7%","Easy"],[94,"Binary Tree Inorder Traversal","71.2%","Easy"],[1047,"Remove All Adjacent Duplicates In String","70.9%","Easy"],[206,"Reverse Linked List","70.8%","Easy"],[496,"Next Greater Element I","70.4%","Easy"],[852,"Peak Index in a Mountain Array","69.9%","Easy"],[136,"Single Number","69.6%","Easy"],[349,"Intersection of Two Arrays","69.4%","Easy"],[463,"Island Perimeter","69.1%","Easy"],[637,"Average of Levels in Binary Tree","68.9%","Easy"],[1002,"Find Common Characters","68.4%","Easy"],[1636,"Sort Array by Increasing Frequency","68.4%","Easy"],[509,"Fibonacci Number","68.3%","Easy"],[603,"Consecutive Available Seats","67.9%","Easy"],[1925,"Count Square Sum Triples","67.8%","Easy"],[1160,"Find Words That Can Be Formed by Characters","67.7%","Easy"],[412,"Fizz Buzz","67.1%","Easy"],[181,"Employees Earning More Than Their Managers","66.9%","Easy"],[476,"Number Complement","66.9%","Easy"],[108,"Convert Sorted Array to Binary Search Tree","66.5%","Easy"],[705,"Design HashSet","66.3%","Easy"],[118,"Pascal's Triangle","65.5%","Easy"],[706,"Design HashMap","65.2%","Easy"],[696,"Count Binary Substrings","65.1%","Easy"],[243,"Shortest Word Distance","64.6%","Easy"],[1455,"Check If a Word Occurs As a Prefix of Any Word in a Sentence","64.5%","Easy"],[1046,"Last Stone Weight","64.4%","Easy"],[867,"Transpose Matrix","64.0%","Easy"],[169,"Majority Element","63.2%","Easy"],[191,"Number of 1 Bits","62.4%","Easy"],[242,"Valid Anagram","61.7%","Easy"],[917,"Reverse Only Letters","61.1%","Easy"],[217,"Contains Duplicate","61.0%","Easy"],[283,"Move Zeroes","60.8%","Easy"],[21,"Merge Two Sorted Lists","60.7%","Easy"],[268,"Missing Number","60.6%","Easy"],[389,"Find the Difference","60.5%","Easy"],[1099,"Two Sum Less Than K","60.5%","Easy"],[746,"Min Cost Climbing Stairs","59.4%","Easy"],[448,"Find All Numbers Disappeared in an Array","59.2%","Easy"],[257,"Binary Tree Paths","59.1%","Easy"],[232,"Implement Queue using Stacks","59.0%","Easy"],[653,"Two Sum IV - Input is a BST","59.0%","Easy"],[1854,"Maximum Population Year","59.0%","Easy"],[733,"Flood Fill","58.5%","Easy"],[896,"Monotonic Array","58.3%","Easy"],[13,"Roman to Integer","57.9%","Easy"],[235,"Lowest Common Ancestor of a Binary Search Tree","57.5%","Easy"],[387,"First Unique Character in a String","57.4%","Easy"],[506,"Relative Ranks","57.3%","Easy"],[252,"Meeting Rooms","56.8%","Easy"],[383,"Ransom Note","56.1%","Easy"],[937,"Reorder Data in Log Files","56.1%","Easy"],[225,"Implement Stack using Queues","55.8%","Easy"],[1496,"Path Crossing","55.8%","Easy"],[100,"Same Tree","55.7%","Easy"],[1539,"Kth Missing Positive Number","55.6%","Easy"],[704,"Binary Search","55.2%","Easy"],[350,"Intersection of Two Arrays II","55.1%","Easy"],[703,"Kth Largest Element in a Stream","55.0%","Easy"],[598,"Range Addition II","54.8%","Easy"],[543,"Diameter of Binary Tree","54.7%","Easy"],[1275,"Find Winner on a Tic Tac Toe Game","54.6%","Easy"],[121,"Best Time to Buy and Sell Stock","54.2%","Easy"],[270,"Closest Binary Search Tree Value","54.1%","Easy"],[993,"Cousins in Binary Tree","53.9%","Easy"],[409,"Longest Palindrome","53.8%","Easy"],[202,"Happy Number","53.5%","Easy"],[9,"Palindrome Number","52.5%","Easy"],[953,"Verifying an Alien Dictionary","52.5%","Easy"],[101,"Symmetric Tree","51.9%","Easy"],[724,"Find Pivot Index","51.9%","Easy"],[160,"Intersection of Two Linked Lists","51.6%","Easy"],[27,"Remove Element","51.4%","Easy"],[70,"Climbing Stairs","51.2%","Easy"],[392,"Is Subsequence","51.0%","Easy"],[67,"Add Binary","50.7%","Easy"],[155,"Min Stack","50.6%","Easy"],[53,"Maximum Subarray","49.6%","Easy"],[26,"Remove Duplicates from Sorted Array","49.3%","Easy"],[83,"Remove Duplicates from Sorted List","49.2%","Easy"],[1,"Two Sum","48.7%","Easy"],[110,"Balanced Binary Tree","47.1%","Easy"],[234,"Palindrome Linked List","47.1%","Easy"],[1360,"Number of Days Between Two Dates","46.9%","Easy"],[1523,"Count Odd Numbers in an Interval Range","46.8%","Easy"],[628,"Maximum Product of Three Numbers","46.7%","Easy"],[141,"Linked List Cycle","46.1%","Easy"],[112,"Path Sum","45.9%","Easy"],[405,"Convert a Number to Hexadecimal","45.8%","Easy"],[572,"Subtree of Another Tree","45.5%","Easy"],[716,"Max Stack","45.2%","Easy"],[819,"Most Common Word","45.2%","Easy"],[231,"Power of Two","45.1%","Easy"],[88,"Merge Sorted Array","44.9%","Easy"],[744,"Find Smallest Letter Greater Than Target","44.9%","Easy"],[203,"Remove Linked List Elements","43.8%","Easy"],[326,"Power of Three","43.6%","Easy"],[66,"Plus One","43.0%","Easy"],[35,"Search Insert Position","42.3%","Easy"],[125,"Valid Palindrome","42.2%","Easy"],[205,"Isomorphic Strings","42.2%","Easy"],[278,"First Bad Version","42.0%","Easy"],[20,"Valid Parentheses","40.9%","Easy"],[219,"Contains Duplicate II","40.7%","Easy"],[157,"Read N Characters Given Read4","40.5%","Easy"],[290,"Word Pattern","40.2%","Easy"],[14,"Longest Common Prefix","39.7%","Easy"],[680,"Valid Palindrome II","39.4%","Easy"],[58,"Length of Last Word","38.3%","Easy"],[69,"Sqrt(x)","36.6%","Easy"],[28,"Implement strStr()","36.3%","Easy"],[168,"Excel Sheet Column Title","34.1%","Easy"],[941,"Valid Mountain Array","33.7%","Easy"],[605,"Can Place Flowers","33.1%","Easy"],[414,"Third Maximum Number","32.0%","Easy"],[2047,"Number of Valid Words in a Sentence","29.4%","Easy"],[193,"Valid Phone Numbers","25.8%","Easy"],
 [1302,"Deepest Leaves Sum","87.1%","Medium"],[807,"Max Increase to Keep City Skyline","85.6%","Medium"],[1315,"Sum of Nodes with Even-Valued Grandparent","85.3%","Medium"],[1038,"Binary Search Tree to Greater Sum Tree","84.9%","Medium"],[2125,"Number of Laser Beams in a Bank","83.3%","Medium"],[1628,"Design an Expression Tree With Evaluate Function","82.1%","Medium"],[2130,"Maximum Twin Sum of a Linked List","82.1%","Medium"],[339,"Nested List Weight Sum","81.5%","Medium"],[797,"All Paths From Source to Target","81.0%","Medium"],[1008,"Construct Binary Search Tree from Preorder Traversal","80.4%","Medium"],[763,"Partition Labels","79.6%","Medium"],[1305,"All Elements in Two Binary Search Trees","79.6%","Medium"],[2221,"Find Triangular Sum of an Array","79.2%","Medium"],[2268,"Minimum Number of Keypresses","79.2%","Medium"],[366,"Find Leaves of Binary Tree","79.0%","Medium"],[1641,"Count Sorted Vowel Strings","77.6%","Medium"],[1650,"Lowest Common Ancestor of a Binary Tree III","77.4%","Medium"],[921,"Minimum Add to Make Parentheses Valid","76.9%","Medium"],[1472,"Design Browser History","75.2%","Medium"],[1325,"Delete Leaves With a Given Value","74.8%","Medium"],[419,"Battleships in a Board","73.9%","Medium"],[1026,"Maximum Difference Between Node and Ancestor","73.3%","Medium"],[46,"Permutations","72.9%","Medium"],[442,"Find All Duplicates in an Array","72.7%","Medium"],[78,"Subsets","72.0%","Medium"],[979,"Distribute Coins in Binary Tree","71.7%","Medium"],[2294,"Partition Array Such That Maximum Difference Is K","71.0%","Medium"],[22,"Generate Parentheses","70.5%","Medium"],[695,"Max Area of Island","70.1%","Medium"],[370,"Range Addition","69.9%","Medium"],[1525,"Number of Good Ways to Split a String","69.9%","Medium"],[626,"Exchange Seats","69.7%","Medium"],[841,"Keys and Rooms","69.3%","Medium"],[877,"Stone Game","69.2%","Medium"],[1395,"Count Number of Teams","69.2%","Medium"],[1164,"Product Price at a Given Date","68.3%","Medium"],[1338,"Reduce Array Size to The Half","68.3%","Medium"],[1721,"Swapping Nodes in a Linked List","68.2%","Medium"],[1244,"Design A Leaderboard","68.2%","Medium"],[230,"Kth Smallest Element in a BST","68.0%","Medium"],[865,"Smallest Subtree with all the Deepest Nodes","68.0%","Medium"],[173,"Binary Search Tree Iterator","67.7%","Medium"],[931,"Minimum Falling Path Sum","67.7%","Medium"],[362,"Design Hit Counter","67.6%","Medium"],[946,"Validate Stack Sequences","67.6%","Medium"],[1045,"Customers Who Bought All Products","67.5%","Medium"],[582,"Kill Process","67.4%","Medium"],[1167,"Minimum Cost to Connect Sticks","67.4%","Medium"],[48,"Rotate Image","67.3%","Medium"],[739,"Daily Temperatures","67.3%","Medium"],[951,"Flip Equivalent Binary Trees","66.7%","Medium"],[311,"Sparse Matrix Multiplication","66.5%","Medium"],[538,"Convert BST to Greater Tree","66.5%","Medium"],[669,"Trim a Binary Search Tree","66.3%","Medium"],[216,"Combination Sum III","66.2%","Medium"],[39,"Combination Sum","66.1%","Medium"],[280,"Wiggle Sort","66.1%","Medium"],[973,"K Closest Points to Origin","65.9%","Medium"],[647,"Palindromic Substrings","65.7%","Medium"],[1249,"Minimum Remove to Make Valid Parentheses","65.7%","Medium"],[289,"Game of Life","65.6%","Medium"],[59,"Spiral Matrix II","65.3%","Medium"],[856,"Score of Parentheses","65.3%","Medium"],[1268,"Search Suggestions System","65.3%","Medium"],[1414,"Find the Minimum Number of Fibonacci Numbers Whose Sum Is K","65.2%","Medium"],[347,"Top K Frequent Elements","65.0%","Medium"],[529,"Minesweeper","64.9%","Medium"],[49,"Group Anagrams","64.6%","Medium"],[426,"Convert Binary Search Tree to Sorted Doubly Linked List","64.5%","Medium"],[1584,"Min Cost to Connect All Points","64.4%","Medium"],[238,"Product of Array Except Self","64.2%","Medium"],[983,"Minimum Cost For Tickets","64.2%","Medium"],[215,"Kth Largest Element in an Array","63.9%","Medium"],[1011,"Capacity To Ship Packages Within D Days","63.8%","Medium"],[1254,"Number of Closed Islands","63.6%","Medium"],[1344,"Angle Between Hands of a Clock","63.4%","Medium"],[901,"Online Stock Span","63.3%","Medium"],[1004,"Max Consecutive Ones III","63.1%","Medium"],[1306,"Jump Game III","62.9%","Medium"],[547,"Number of Provinces","62.7%","Medium"],[503,"Next Greater Element II","62.4%","Medium"],[122,"Best Time to Buy and Sell Stock II","62.3%","Medium"],[1492,"The kth Factor of n","62.1%","Medium"],[1136,"Parallel Courses","61.9%","Medium"],[1166,"Design File System","61.8%","Medium"],[323,"Number of Connected Components in an Undirected Graph","61.4%","Medium"],[684,"Redundant Connection","61.4%","Medium"],[863,"All Nodes Distance K in Binary Tree","61.4%","Medium"],[102,"Binary Tree Level Order Traversal","61.3%","Medium"],[912,"Sort an Array","61.3%","Medium"],[341,"Flatten Nested List Iterator","60.9%","Medium"],[1291,"Sequential Digits","60.9%","Medium"],[1151,"Minimum Swaps to Group All 1's Together","60.6%","Medium"],[62,"Unique Paths","60.4%","Medium"],[2104,"Sum of Subarray Ranges","60.4%","Medium"],[655,"Print Binary Tree","60.3%","Medium"],[1481,"Least Number of Unique Integers after K Removals","60.3%","Medium"],[131,"Palindrome Partitioning","60.2%","Medium"],[318,"Maximum Product of Word Lengths","60.2%","Medium"],[694,"Number of Distinct Islands","60.1%","Medium"],[199,"Binary Tree Right Side View","59.9%","Medium"],[378,"Kth Smallest Element in a Sorted Matrix","59.9%","Medium"],[12,"Integer to Roman","59.7%","Medium"],[64,"Minimum Path Sum","59.7%","Medium"],[328,"Odd Even Linked List","59.7%","Medium"],[516,"Longest Palindromic Subsequence","59.7%","Medium"],[167,"Two Sum II - Input Array Is Sorted","59.6%","Medium"],[286,"Walls and Gates","59.6%","Medium"],[256,"Paint House","59.2%","Medium"],[24,"Swap Nodes in Pairs","59.1%","Medium"],[107,"Binary Tree Level Order Traversal II","59.1%","Medium"],[926,"Flip String to Monotone Increasing","59.1%","Medium"],[1062,"Longest Repeating Substring","59.1%","Medium"],[430,"Flatten a Multilevel Doubly Linked List","59.0%","Medium"],[1143,"Longest Common Subsequence","59.0%","Medium"],[287,"Find the Duplicate Number","58.9%","Medium"],[445,"Add Two Numbers II","58.9%","Medium"],[900,"RLE Iterator","58.9%","Medium"],[208,"Implement Trie (Prefix Tree)","58.8%","Medium"],[399,"Evaluate Division","58.8%","Medium"],[1248,"Count Number of Nice Subarrays","58.8%","Medium"],[1372,"Longest ZigZag Path in a Binary Tree","58.8%","Medium"],[540,"Single Element in a Sorted Array","58.6%","Medium"],[96,"Unique Binary Search Trees","58.5%","Medium"],[114,"Flatten Binary Tree to Linked List","58.3%","Medium"],[105,"Construct Binary Tree from Preorder and Inorder Traversal","58.2%","Medium"],[583,"Delete Operation for Two Strings","58.2%","Medium"],[1376,"Time Needed to Inform All Employees","58.2%","Medium"],[518,"Coin Change 2","58.1%","Medium"],[178,"Rank Scores","58.0%","Medium"],[1094,"Car Pooling","57.9%","Medium"],[116,"Populating Next Right Pointers in Each Node","57.7%","Medium"],[1679,"Max Number of K-Sum Pairs","57.6%","Medium"],[740,"Delete and Earn","57.5%","Medium"],[129,"Sum Root to Leaf Numbers","57.4%","Medium"],[1288,"Remove Covered Intervals","57.4%","Medium"],[348,"Design Tic-Tac-Toe","57.3%","Medium"],[384,"Shuffle an Array","57.2%","Medium"],[454,"4Sum II","57.1%","Medium"],[137,"Single Number II","56.9%","Medium"],[1405,"Longest Happy String","56.8%","Medium"],[1461,"Check If a String Contains All Binary Codes of Size K","56.8%","Medium"],[1258,"Synonymous Sentences","56.7%","Medium"],[2214,"Minimum Health to Beat Game","56.7%","Medium"],[394,"Decode String","56.5%","Medium"],[449,"Serialize and Deserialize BST","56.4%","Medium"],[947,"Most Stones Removed with Same Row or Column","56.4%","Medium"],[1209,"Remove All Adjacent Duplicates in String II","56.2%","Medium"],[652,"Find Duplicate Subtrees","56.1%","Medium"],[109,"Convert Sorted List to Binary Search Tree","56.0%","Medium"],[721,"Accounts Merge","56.0%","Medium"],[2110,"Number of Smooth Descent Periods of a Stock","55.9%","Medium"],[222,"Count Complete Tree Nodes","55.8%","Medium"],[236,"Lowest Common Ancestor of a Binary Tree","55.8%","Medium"],[47,"Permutations II","55.7%","Medium"],[539,"Minimum Time Difference","55.6%","Medium"],[36,"Valid Sudoku","55.5%","Medium"],[75,"Sort Colors","55.4%","Medium"],[752,"Open the Lock","55.4%","Medium"],[1041,"Robot Bounded In Circle","55.4%","Medium"],[729,"My Calendar I","55.3%","Medium"],[1509,"Minimum Difference Between Largest and Smallest Value in Three Moves","55.2%","Medium"],[490,"The Maze","54.9%","Medium"],[1060,"Missing Element in Sorted Array","54.8%","Medium"],[1229,"Meeting Scheduler","54.8%","Medium"],[621,"Task Scheduler","54.7%","Medium"],[638,"Shopping Offers","54.7%","Medium"],[17,"Letter Combinations of a Phone Number","54.5%","Medium"],[692,"Top K Frequent Words","54.5%","Medium"],[113,"Path Sum II","54.4%","Medium"],[200,"Number of Islands","54.4%","Medium"],[1730,"Shortest Path to Get Food","54.3%","Medium"],[875,"Koko Eating Bananas","54.3%","Medium"],[11,"Container With Most Water","54.0%","Medium"],[103,"Binary Tree Zigzag Level Order Traversal","54.0%","Medium"],[90,"Subsets II","53.8%","Medium"],[337,"House Robber III","53.6%","Medium"],[1010,"Pairs of Songs With Total Durations Divisible by 60","53.5%","Medium"],[974,"Subarray Sums Divisible by K","53.2%","Medium"],[934,"Shortest Bridge","53.1%","Medium"],[159,"Longest Substring with At Most Two Distinct Characters","52.9%","Medium"],[309,"Best Time to Buy and Sell Stock with Cooldown","52.9%","Medium"],[120,"Triangle","52.7%","Medium"],[1039,"Minimum Score Triangulation of Polygon","52.7%","Medium"],[40,"Combination Sum II","52.6%","Medium"],[813,"Largest Sum of Averages","52.6%","Medium"],[981,"Time Based Key-Value Store","52.6%","Medium"],[1007,"Minimum Domino Rotations For Equal Row","52.6%","Medium"],[148,"Sort List","52.5%","Medium"],[881,"Boats to Save People","52.5%","Medium"],[795,"Number of Subarrays with Bounded Maximum","52.4%","Medium"],[838,"Push Dominoes","52.4%","Medium"],[1429,"First Unique Number","52.4%","Medium"],[1138,"Alphabet Board Path","52.3%","Medium"],[1297,"Maximum Number of Occurrences of a Substring","52.3%","Medium"],[767,"Reorganize String","52.2%","Medium"],[279,"Perfect Squares","52.0%","Medium"],[785,"Is Graph Bipartite?","51.9%","Medium"],[994,"Rotting Oranges","51.9%","Medium"],[688,"Knight Probability in Chessboard","51.7%","Medium"],[380,"Insert Delete GetRandom O(1)","51.5%","Medium"],[298,"Binary Tree Longest Consecutive Sequence","51.4%","Medium"],[314,"Binary Tree Vertical Order Traversal","51.4%","Medium"],[799,"Champagne Tower","51.3%","Medium"],[304,"Range Sum Query 2D - Immutable","51.1%","Medium"],[424,"Longest Repeating Character Replacement","51.0%","Medium"],[379,"Design Phone Directory","50.5%","Medium"],[743,"Network Delay Time","50.4%","Medium"],[437,"Path Sum III","50.1%","Medium"],[1423,"Maximum Points You Can Obtain from Cards","50.1%","Medium"],[253,"Meeting Rooms II","49.9%","Medium"],[417,"Pacific Atlantic Water Flow","49.9%","Medium"],[611,"Valid Triangle Number","49.9%","Medium"],[300,"Longest Increasing Subsequence","49.8%","Medium"],[377,"Combination Sum IV","49.7%","Medium"],[325,"Maximum Size Subarray Sum Equals k","49.3%","Medium"],[450,"Delete Node in a BST","49.2%","Medium"],[935,"Knight Dialer","49.2%","Medium"],[38,"Count and Say","49.0%","Medium"],[99,"Recover Binary Search Tree","49.0%","Medium"],[73,"Set Matrix Zeroes","48.8%","Medium"],[128,"Longest Consecutive Sequence","48.8%","Medium"],[622,"Design Circular Queue","48.8%","Medium"],[138,"Copy List with Random Pointer","48.7%","Medium"],[143,"Reorder List","48.7%","Medium"],[240,"Search a 2D Matrix II","48.7%","Medium"],[117,"Populating Next Right Pointers in Each Node II","48.6%","Medium"],[435,"Non-overlapping Intervals","48.6%","Medium"],[1034,"Coloring A Border","48.6%","Medium"],[2096,"Step-By-Step Directions From a Binary Tree Node to Another","48.6%","Medium"],[438,"Find All Anagrams in a String","48.5%","Medium"],[2134,"Minimum Swaps to Group All 1's Together II","48.5%","Medium"],[133,"Clone Graph","48.4%","Medium"],[915,"Partition Array into Disjoint Intervals","48.4%","Medium"],[1352,"Product of the Last K Numbers","48.4%","Medium"],[153,"Find Minimum in Rotated Sorted Array","48.1%","Medium"],[1162,"As Far from Land as Possible","48.1%","Medium"],[1559,"Detect Cycles in 2D Grid","48.1%","Medium"],[790,"Domino and Tromino Tiling","48.0%","Medium"],[443,"String Compression","47.8%","Medium"],[255,"Verify Preorder Sequence in Binary Search Tree","47.7%","Medium"],[670,"Maximum Swap","47.7%","Medium"],[886,"Possible Bipartition","47.7%","Medium"],[184,"Department Highest Salary","47.6%","Medium"],[198,"House Robber","47.6%","Medium"],[340,"Longest Substring with At Most K Distinct Characters","47.5%","Medium"],[849,"Maximize Distance to Closest Person","47.5%","Medium"],[2100,"Find Good Days to Rob the Bank","47.4%","Medium"],[16,"3Sum Closest","47.0%","Medium"],[210,"Course Schedule II","46.9%","Medium"],[277,"Find the Celebrity","46.9%","Medium"],[1438,"Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit","46.9%","Medium"],[474,"Ones and Zeroes","46.5%","Medium"],[525,"Contiguous Array","46.5%","Medium"],[2222,"Number of Ways to Select Buildings","46.3%","Medium"],[528,"Random Pick with Weight","46.2%","Medium"],[261,"Graph Valid Tree","46.1%","Medium"],[388,"Longest Absolute File Path","46.1%","Medium"],[162,"Find Peak Element","46.0%","Medium"],[2115,"Find All Possible Recipes from Given Supplies","46.0%","Medium"],[180,"Consecutive Numbers","45.9%","Medium"],[923,"3Sum With Multiplicity","45.5%","Medium"],[494,"Target Sum","45.4%","Medium"],[1642,"Furthest Building You Can Reach","45.3%","Medium"],[56,"Merge Intervals","45.2%","Medium"],[74,"Search a 2D Matrix","45.1%","Medium"],[207,"Course Schedule","45.1%","Medium"],[139,"Word Break","44.8%","Medium"],[2055,"Plates Between Candles","44.8%","Medium"],[658,"Find K Closest Elements","44.7%","Medium"],[82,"Remove Duplicates from Sorted List II","44.6%","Medium"],[142,"Linked List Cycle II","44.6%","Medium"],[395,"Longest Substring with At Least K Repeating Characters","44.6%","Medium"],[134,"Gas Station","44.5%","Medium"],[567,"Permutation in String","44.4%","Medium"],[1091,"Shortest Path in Binary Matrix","44.4%","Medium"],[735,"Asteroid Collision","44.3%","Medium"],[560,"Subarray Sum Equals K","44.2%","Medium"],[713,"Subarray Product Less Than K","44.2%","Medium"],[316,"Remove Duplicate Letters","44.0%","Medium"],[211,"Design Add and Search Words Data Structure","43.9%","Medium"],[542,"01 Matrix","43.9%","Medium"],[209,"Minimum Size Subarray Sum","43.7%","Medium"],[221,"Maximal Square","43.7%","Medium"],[92,"Reverse Linked List II","43.6%","Medium"],[545,"Boundary of Binary Tree","43.5%","Medium"],[1152,"Analyze User Website Visit Pattern","43.3%","Medium"],[698,"Partition to K Equal Sum Subsets","43.2%","Medium"],[1567,"Maximum Length of Subarray With Positive Product","43.2%","Medium"],[150,"Evaluate Reverse Polish Notation","43.1%","Medium"],[229,"Majority Element II","42.8%","Medium"],[904,"Fruit Into Baskets","42.7%","Medium"],[1171,"Remove Zero Sum Consecutive Nodes from Linked List","42.7%","Medium"],[93,"Restore IP Addresses","42.2%","Medium"],[754,"Reach a Number","42.0%","Medium"],[6,"Zigzag Conversion","41.9%","Medium"],[54,"Spiral Matrix","41.9%","Medium"],[227,"Basic Calculator II","41.7%","Medium"],[634,"Find the Derangement of An Array","41.3%","Medium"],[322,"Coin Change","40.7%","Medium"],[909,"Snakes and Ladders","40.6%","Medium"],[34,"Find First and Last Position of Element in Sorted Array","40.3%","Medium"],[532,"K-diff Pairs in an Array","40.3%","Medium"],[662,"Maximum Width of Binary Tree","40.3%","Medium"],[1497,"Check If Array Pairs Are Divisible by k","40.3%","Medium"],[146,"LRU Cache","40.1%","Medium"],[213,"House Robber II","40.1%","Medium"],[779,"K-th Symbol in Grammar","40.1%","Medium"],[1386,"Cinema Seat Allocation","40.0%","Medium"],[1197,"Minimum Knight Moves","39.9%","Medium"],[79,"Word Search","39.8%","Medium"],[687,"Longest Univalue Path","39.6%","Medium"],[1864,"Minimum Number of Swaps to Make the Binary String Alternating","39.4%","Medium"],[1498,"Number of Subsequences That Satisfy the Given Sum Condition","39.1%","Medium"],[2,"Add Two Numbers","38.9%","Medium"],[71,"Simplify Path","38.9%","Medium"],[307,"Range Sum Query - Mutable","38.8%","Medium"],[189,"Rotate Array","38.7%","Medium"],[19,"Remove Nth Node From End of List","38.6%","Medium"],[63,"Unique Paths II","38.6%","Medium"],[373,"Find K Pairs with Smallest Sums","38.6%","Medium"],[353,"Design Snake Game","38.4%","Medium"],[2007,"Find Original Array From Doubled Array","38.4%","Medium"],[310,"Minimum Height Trees","38.2%","Medium"],[33,"Search in Rotated Sorted Array","38.0%","Medium"],[43,"Multiply Strings","38.0%","Medium"],[55,"Jump Game","38.0%","Medium"],[1953,"Maximum Number of Weeks for Which You Can Work","37.9%","Medium"],[274,"H-Index","37.8%","Medium"],[57,"Insert Interval","37.6%","Medium"],[18,"4Sum","37.5%","Medium"],[45,"Jump Game II","37.5%","Medium"],[918,"Maximum Sum Circular Subarray","37.4%","Medium"],[31,"Next Permutation","36.6%","Medium"],[1856,"Maximum Subarray Min-Product","36.3%","Medium"],[581,"Shortest Unsorted Continuous Subarray","36.1%","Medium"],[787,"Cheapest Flights Within K Stops","35.9%","Medium"],[81,"Search in Rotated Sorted Array II","35.6%","Medium"],[176,"Second Highest Salary","35.6%","Medium"],[475,"Heaters","35.5%","Medium"],[949,"Largest Time for Given Digits","35.4%","Medium"],[61,"Rotate List","35.1%","Medium"],[355,"Design Twitter","35.1%","Medium"],[97,"Interleaving String","35.0%","Medium"],[165,"Compare Version Numbers","34.8%","Medium"],[633,"Sum of Square Numbers","34.7%","Medium"],[152,"Maximum Product Subarray","34.6%","Medium"],[907,"Sum of Subarray Minimums","34.0%","Medium"],[556,"Next Greater Element III","33.9%","Medium"],[678,"Valid Parenthesis String","33.5%","Medium"],[3,"Longest Substring Without Repeating Characters","33.4%","Medium"],[1353,"Maximum Number of Events That Can Be Attended","33.4%","Medium"],[179,"Largest Number","33.2%","Medium"],[204,"Count Primes","33.0%","Medium"],[50,"Pow(x, n)","32.5%","Medium"],[324,"Wiggle Sort II","32.4%","Medium"],[456,"132 Pattern","32.4%","Medium"],[5,"Longest Palindromic Substring","32.2%","Medium"],[15,"3Sum","31.4%","Medium"],[2116,"Check if a Parentheses String Can Be Valid","31.2%","Medium"],[1648,"Sell Diminishing-Valued Colored Balls","30.9%","Medium"],[98,"Validate Binary Search Tree","30.7%","Medium"],[91,"Decode Ways","30.6%","Medium"],[402,"Remove K Digits","30.5%","Medium"],[523,"Continuous Subarray Sum","27.4%","Medium"],[7,"Reverse Integer","26.8%","Medium"],[468,"Validate IP Address","26.3%","Medium"],[29,"Divide Two Integers","17.5%","Medium"],[8,"String to Integer (atoi)","16.6%","Medium"],
 [980,"Unique Paths III","79.5%","Hard"],[489,"Robot Room Cleaner","76.1%","Hard"],[1463,"Cherry Pickup II","70.6%","Hard"],[895,"Maximum Frequency Stack","66.5%","Hard"],[1312,"Minimum Insertion Steps to Make a String Palindrome","64.2%","Hard"],[2102,"Sequentially Ordinal Rank Tracker","63.9%","Hard"],[1597,"Build Binary Expression Tree From Infix Expression","60.8%","Hard"],[51,"N-Queens","60.6%","Hard"],[778,"Swim in Rising Water","59.2%","Hard"],[632,"Smallest Range Covering Elements from K Lists","59.0%","Hard"],[272,"Closest Binary Search Tree Value II","57.5%","Hard"],[42,"Trapping Rain Water","57.0%","Hard"],[312,"Burst Balloons","56.5%","Hard"],[1335,"Minimum Difficulty of a Job Schedule","56.2%","Hard"],[37,"Sudoku Solver","54.7%","Hard"],[1192,"Critical Connections in a Network","54.3%","Hard"],[297,"Serialize and Deserialize Binary Tree","54.0%","Hard"],[1972,"First and Last Call On the Same Day","53.7%","Hard"],[2262,"Total Appeal of A String","53.7%","Hard"],[410,"Split Array Largest Sum","52.4%","Hard"],[726,"Number of Atoms","51.9%","Hard"],[25,"Reverse Nodes in k-Group","51.7%","Hard"],[72,"Edit Distance","51.3%","Hard"],[329,"Longest Increasing Path in a Matrix","51.3%","Hard"],[1235,"Maximum Profit in Job Scheduling","50.9%","Hard"],[295,"Find Median from Data Stream","50.5%","Hard"],[828,"Count Unique Characters of All Substrings of a Given String","50.2%","Hard"],[601,"Human Traffic of Stadium","49.9%","Hard"],[588,"Design In-Memory File System","48.5%","Hard"],[642,"Design Search Autocomplete System","48.4%","Hard"],[1326,"Minimum Number of Taps to Open to Water a Garden","48.0%","Hard"],[185,"Department Top Three Salaries","47.9%","Hard"],[772,"Basic Calculator III","47.8%","Hard"],[23,"Merge k Sorted Lists","47.4%","Hard"],[301,"Remove Invalid Parentheses","46.9%","Hard"],[239,"Sliding Window Maximum","46.3%","Hard"],[2009,"Minimum Number of Operations to Make Array Continuous","45.6%","Hard"],[815,"Bus Routes","45.3%","Hard"],[827,"Making A Large Island","44.8%","Hard"],[730,"Count Different Palindromic Subsequences","44.6%","Hard"],[1345,"Jump Game IV","44.3%","Hard"],[1293,"Shortest Path in a Grid with Obstacles Elimination","43.6%","Hard"],[123,"Best Time to Buy and Sell Stock III","43.5%","Hard"],[472,"Concatenated Words","43.5%","Hard"],[2193,"Minimum Number of Moves to Make Palindrome","43.3%","Hard"],[85,"Maximal Rectangle","43.1%","Hard"],[403,"Frog Jump","43.0%","Hard"],[140,"Word Break II","42.6%","Hard"],[631,"Design Excel Sum Formula","42.5%","Hard"],[1000,"Minimum Cost to Merge Stones","42.1%","Hard"],[315,"Count of Smaller Numbers After Self","42.0%","Hard"],[987,"Vertical Order Traversal of a Binary Tree","41.8%","Hard"],[1383,"Maximum Performance of a Team","41.5%","Hard"],[1703,"Minimum Adjacent Swaps for K Consecutive Ones","41.5%","Hard"],[829,"Consecutive Numbers Sum","41.2%","Hard"],[84,"Largest Rectangle in Histogram","41.1%","Hard"],[902,"Numbers At Most N Given Digit Set","40.9%","Hard"],[224,"Basic Calculator","40.7%","Hard"],[332,"Reconstruct Itinerary","40.3%","Hard"],[460,"LFU Cache","39.7%","Hard"],[76,"Minimum Window Substring","39.3%","Hard"],[801,"Minimum Swaps To Make Sequences Increasing","39.1%","Hard"],[354,"Russian Doll Envelopes","38.8%","Hard"],[1373,"Maximum Sum BST in Binary Tree","38.8%","Hard"],[262,"Trips and Users","38.0%","Hard"],[124,"Binary Tree Maximum Path Sum","37.8%","Hard"],[212,"Word Search II","37.7%","Hard"],[135,"Candy","37.3%","Hard"],[2111,"Minimum Operations to Make the Array K-Increasing","36.8%","Hard"],[174,"Dungeon Game","36.7%","Hard"],[432,"All O`one Data Structure","36.3%","Hard"],[41,"First Missing Positive","36.1%","Hard"],[878,"Nth Magical Number","35.9%","Hard"],[891,"Sum of Subsequence Widths","35.9%","Hard"],[871,"Minimum Number of Refueling Stops","35.8%","Hard"],[127,"Word Ladder","35.7%","Hard"],[68,"Text Justification","35.6%","Hard"],[675,"Cut Off Trees for Golf Event","35.2%","Hard"],[1932,"Merge BSTs to Create Single BST","35.1%","Hard"],[269,"Alien Dictionary","35.0%","Hard"],[4,"Median of Two Sorted Arrays","34.4%","Hard"],[188,"Best Time to Buy and Sell Stock IV","34.1%","Hard"],[132,"Palindrome Partitioning II","33.3%","Hard"],[32,"Longest Valid Parentheses","32.3%","Hard"],[2272,"Substring With Largest Variance","31.2%","Hard"],[1044,"Longest Duplicate Substring","31.0%","Hard"],[493,"Reverse Pairs","30.2%","Hard"],[273,"Integer to English Words","29.7%","Hard"],[2040,"Kth Smallest Product of Two Sorted Arrays","29.4%","Hard"],[10,"Regular Expression Matching","28.3%","Hard"],[30,"Substring with Concatenation of All Words","28.3%","Hard"],[126,"Word Ladder II","27.2%","Hard"],[887,"Super Egg Drop","27.2%","Hard"],[44,"Wildcard Matching","26.6%","Hard"],[862,"Shortest Subarray with Sum at Least K","26.1%","Hard"],[2281,"Sum of Total Strength of Wizards","22.5%","Hard"],[564,"Find the Closest Palindrome","21.6%","Hard"],[149,"Max Points on a Line","20.8%","Hard"],[2035,"Partition Array Into Two Arrays to Minimize Sum Difference","20.3%","Hard"],[420,"Strong Password Checker","14.3%","Hard"]
 ];
 
-const EASY_TOTAL=ALL.filter(p=>p[3]==='Easy').length;
-const MED_TOTAL=ALL.filter(p=>p[3]==='Medium').length;
-const HARD_TOTAL=ALL.filter(p=>p[3]==='Hard').length;
+        /* ---------- SETUP ---------- */
+        const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const EASY_TOTAL = ALL.filter(p => p[3] === "Easy").length;
+        const MED_TOTAL  = ALL.filter(p => p[3] === "Medium").length;
+        const HARD_TOTAL = ALL.filter(p => p[3] === "Hard").length;
+        const RING_C = 2 * Math.PI * 52;
 
-let done=new Set();
-let tab='all';
+        const ringFill = document.getElementById("ringFill");
+        ringFill.style.strokeDasharray = RING_C;
+        ringFill.style.strokeDashoffset = RING_C;
 
-function load(){
-  try{
-    const saved=localStorage.getItem('amz_lc_done');
-    if(saved) done=new Set(JSON.parse(saved));
-  }catch(e){}
-  updateStats(); render();
-}
+        let done = new Set();
+        let tab = "all";
 
-function save(){
-  try{ localStorage.setItem('amz_lc_done', JSON.stringify([...done])); }catch(e){}
-}
+        const $ = id => document.getElementById(id);
 
-function toggle(id){
-  if(done.has(id)) done.delete(id); else done.add(id);
-  save(); updateStats(); render();
-}
+        function load() {
+            try {
+                const saved = localStorage.getItem("amz_lc_done");
+                if (saved) done = new Set(JSON.parse(saved));
+            } catch (e) {}
+            updateStats();
+            render();
+        }
+        function save() {
+            try { localStorage.setItem("amz_lc_done", JSON.stringify([...done])); } catch (e) {}
+        }
 
-function updateStats(){
-  const eD=ALL.filter(p=>p[3]==='Easy'&&done.has(p[0])).length;
-  const mD=ALL.filter(p=>p[3]==='Medium'&&done.has(p[0])).length;
-  const hD=ALL.filter(p=>p[3]==='Hard'&&done.has(p[0])).length;
-  document.getElementById('s-done').textContent=done.size+'/'+ALL.length;
-  document.getElementById('s-easy').textContent=eD+'/'+EASY_TOTAL;
-  document.getElementById('s-med').textContent=mD+'/'+MED_TOTAL;
-  document.getElementById('s-hard').textContent=hD+'/'+HARD_TOTAL;
-  const pct=Math.round(done.size/ALL.length*100);
-  document.getElementById('prog').style.width=pct+'%';
-  document.getElementById('sub').textContent=pct+'% complete — '+done.size+' of '+ALL.length+' problems solved';
-}
+        function toggle(id) {
+            if (done.has(id)) done.delete(id); else done.add(id);
+            save();
+            updateStats();
+            render();
+        }
 
-function setTab(t,el){
-  tab=t;
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  render();
-}
+        function pctOf(a, b) { return b ? Math.round((a / b) * 100) : 0; }
 
-function render(){
-  const q=document.getElementById('srch').value.toLowerCase();
-  const items=ALL.filter(p=>{
-    if(tab!=='all'&&p[3]!==tab) return false;
-    if(q&&!p[1].toLowerCase().includes(q)&&!String(p[0]).includes(q)) return false;
-    return true;
-  });
-  const el=document.getElementById('list');
-  if(!items.length){el.innerHTML='<div class="empty">No problems match your search.</div>';return;}
-  el.innerHTML=items.map(p=>{
-    const ck=done.has(p[0]);
-    const b=p[3][0];
-    const url='https://leetcode.com/problems/'+p[1].toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'/';
-    return `<div class="item${ck?' done':''}" onclick="toggle(${p[0]})">
-      <div class="cb${ck?' checked':''}">${ck?'✓':''}</div>
-      <span class="num">#${p[0]}</span>
-      <a class="prob-title" href="${url}" target="_blank" onclick="event.stopPropagation()">${p[1]}</a>
-      <span class="acc">${p[2]}</span>
-      <span class="badge ${b}">${p[3]}</span>
-      <a class="lc-link" href="${url}" target="_blank" onclick="event.stopPropagation()" title="Open on LeetCode">↗</a>
-    </div>`;
-  }).join('');
-}
+        function updateStats() {
+            const eD = ALL.filter(p => p[3] === "Easy"   && done.has(p[0])).length;
+            const mD = ALL.filter(p => p[3] === "Medium" && done.has(p[0])).length;
+            const hD = ALL.filter(p => p[3] === "Hard"   && done.has(p[0])).length;
+            $("s-done").textContent = done.size + " / " + ALL.length;
+            $("s-easy").textContent = eD + " / " + EASY_TOTAL;
+            $("s-med").textContent  = mD + " / " + MED_TOTAL;
+            $("s-hard").textContent = hD + " / " + HARD_TOTAL;
 
-function resetAll(){
-  if(!confirm('Reset all progress? This cannot be undone.')) return;
-  done.clear(); save(); updateStats(); render();
-}
+            $("b-all").style.width  = pctOf(done.size, ALL.length) + "%";
+            $("b-easy").style.width = pctOf(eD, EASY_TOTAL) + "%";
+            $("b-med").style.width  = pctOf(mD, MED_TOTAL) + "%";
+            $("b-hard").style.width = pctOf(hD, HARD_TOTAL) + "%";
 
-load();
-</script>
+            const pct = pctOf(done.size, ALL.length);
+            $("ringPct").textContent = pct + "%";
+            ringFill.style.strokeDashoffset = RING_C * (1 - pct / 100);
+            $("sub").textContent = pct + "% complete — " + done.size + " of " + ALL.length + " Amazon problems solved.";
+        }
+
+        function render() {
+            const q = $("srch").value.toLowerCase();
+            const items = ALL.filter(p => {
+                if (tab !== "all" && p[3] !== tab) return false;
+                if (q && !p[1].toLowerCase().includes(q) && !String(p[0]).includes(q)) return false;
+                return true;
+            });
+            const el = $("list");
+            $("listMeta").textContent = items.length + " problem" + (items.length === 1 ? "" : "s") +
+                (tab === "all" ? "" : " · " + tab) + (q ? ' · matching "' + $("srch").value + '"' : "");
+
+            if (!items.length) {
+                el.innerHTML = '<div class="empty">No problems match your search.</div>';
+                return;
+            }
+            el.innerHTML = items.map(p => {
+                const ck = done.has(p[0]);
+                const b = p[3][0];
+                const url = "https://leetcode.com/problems/" +
+                    p[1].toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "/";
+                return '<div class="row' + (ck ? " done" : "") + '" data-id="' + p[0] + '">' +
+                    '<div class="cb' + (ck ? " checked" : "") + '"><i class="fa-solid fa-check" aria-hidden="true"></i></div>' +
+                    '<span class="num">#' + p[0] + '</span>' +
+                    '<a class="prob-title" href="' + url + '" target="_blank" rel="noopener" data-stop>' + p[1] + '</a>' +
+                    '<span class="acc">' + p[2] + '</span>' +
+                    '<span class="chip ' + b + '">' + p[3] + '</span>' +
+                    '<a class="open" href="' + url + '" target="_blank" rel="noopener" data-stop aria-label="Open on LeetCode"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>' +
+                    '</div>';
+            }).join("");
+        }
+
+        /* ---------- EVENTS (delegated) ---------- */
+        $("list").addEventListener("click", e => {
+            if (e.target.closest("[data-stop]")) return;      // let LeetCode links through
+            const row = e.target.closest(".row");
+            if (row) toggle(Number(row.dataset.id));
+        });
+        $("srch").addEventListener("input", render);
+        $("reset").addEventListener("click", () => {
+            if (!confirm("Reset all progress? This cannot be undone.")) return;
+            done.clear();
+            save();
+            updateStats();
+            render();
+        });
+
+        /* ---------- SEGMENTED FILTER + sliding indicator ---------- */
+        const seg = $("seg");
+        const segInd = $("segInd");
+        const segBtns = [...seg.querySelectorAll("button")];
+        function moveIndicator(btn) {
+            segInd.style.width = btn.offsetWidth + "px";
+            segInd.style.transform = "translateX(" + (btn.offsetLeft - 4) + "px)";
+        }
+        segBtns.forEach(btn => btn.addEventListener("click", () => {
+            tab = btn.dataset.tab;
+            segBtns.forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+            btn.classList.add("active");
+            btn.setAttribute("aria-selected", "true");
+            moveIndicator(btn);
+            render();
+        }));
+        window.addEventListener("resize", () => moveIndicator(seg.querySelector("button.active")), { passive: true });
+
+        /* ---------- THEME TOGGLE (shared key with portfolio) ---------- */
+        const root = document.documentElement;
+        const themeBtn = $("themeToggle");
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) root.setAttribute("data-theme", savedTheme);
+        const syncIcon = () => themeBtn.innerHTML = root.getAttribute("data-theme") === "dark"
+            ? '<i class="fa-solid fa-moon" aria-hidden="true"></i>' : '<i class="fa-solid fa-sun" aria-hidden="true"></i>';
+        syncIcon();
+        themeBtn.addEventListener("click", () => {
+            const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+            root.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+            syncIcon();
+        });
+
+        /* ---------- MOBILE MENU ---------- */
+        const burger = $("burger");
+        const navLinks = $("navLinks");
+        const setMenu = open => { navLinks.classList.toggle("open", open); burger.setAttribute("aria-expanded", open); };
+        burger.addEventListener("click", () => setMenu(!navLinks.classList.contains("open")));
+        navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+        document.addEventListener("keydown", e => { if (e.key === "Escape" && navLinks.classList.contains("open")) { setMenu(false); burger.focus(); } });
+
+        /* ---------- NAV STATE + SCROLL PROGRESS + TO-TOP (rAF-batched) ---------- */
+        const nav = $("nav");
+        const progress = $("scroll-progress");
+        const toTop = $("to-top");
+        let scrollMax = 0;
+        const measure = () => { scrollMax = document.documentElement.scrollHeight - window.innerHeight; };
+        measure();
+        window.addEventListener("resize", measure, { passive: true });
+        let ticking = false;
+        window.addEventListener("scroll", () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                const y = window.scrollY;
+                nav.classList.toggle("scrolled", y > 20);
+                toTop.classList.toggle("show", y > 500);
+                progress.style.width = (scrollMax > 0 ? (y / scrollMax) * 100 : 0) + "%";
+                ticking = false;
+            });
+        }, { passive: true });
+        toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" }));
+
+        /* ---------- INIT ---------- */
+        load();
+        // position the segment indicator once layout is ready
+        requestAnimationFrame(() => moveIndicator(seg.querySelector("button.active")));
+    </script>
 </body>
 </html>
